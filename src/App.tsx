@@ -8,10 +8,12 @@ import {
   signOut,
 } from 'firebase/auth';
 import { auth } from 'firebase';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addUser } from 'redux/slices/authSlice';
+import { fetchProfile } from 'redux/slices/profileSlice';
 
 function App() {
+  const { currentUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -37,6 +39,10 @@ function App() {
       }),
     [dispatch, history]
   );
+
+  useEffect(() => {
+    if (currentUser?.uid) dispatch(fetchProfile(currentUser.uid));
+  }, [currentUser, dispatch]);
 
   return (
     <>

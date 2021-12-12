@@ -1,14 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './slices/authSlice';
+import profileSlice from './slices/profileSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
+    profile: profileSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

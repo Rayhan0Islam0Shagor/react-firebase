@@ -19,7 +19,7 @@ const NavProfile = () => {
                 <img
                   alt="Avatar"
                   src={
-                    currentUser.photoURL
+                    currentUser?.photoURL
                       ? currentUser.photoURL
                       : 'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
                   }
@@ -39,7 +39,7 @@ const NavProfile = () => {
             }
           </div>
           <span className="mr-4 font-semibold capitalize">
-            {currentUser.displayName.split(' ')[0]}
+            {currentUser?.displayName?.split(' ')[0]}
           </span>
         </Link>
         <button

@@ -5,7 +5,7 @@ import {
   loginApi,
   registerApi,
 } from 'redux/actions/authActions';
-import { IRegister, ILogin } from 'types/index.d';
+import { IRegister, ILogin, IAuth } from 'types/index.d';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const authRegister = createAsyncThunk(
@@ -41,12 +41,12 @@ export const authLogout = createAsyncThunk('auth/logout', async () => {
   return await signOutApi();
 });
 
-export interface CounterState {
-  currentUser?: any;
+export interface AuthState {
+  currentUser?: IAuth;
   loading: boolean;
 }
 
-const initialState: CounterState = {
+const initialState: AuthState = {
   currentUser: undefined,
   loading: false,
 };
