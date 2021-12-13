@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import PageRender from './PageRender';
 import {
-  onAuthStateChanged,
+  onIdTokenChanged,
   sendEmailVerification,
   signOut,
 } from 'firebase/auth';
@@ -19,7 +19,7 @@ function App() {
 
   useEffect(
     () =>
-      onAuthStateChanged(auth, async (user) => {
+      onIdTokenChanged(auth, async (user) => {
         if (user) {
           const providerId = user.providerData.some(
             (p) => p.providerId === 'password'
