@@ -1,4 +1,4 @@
-import { IAuth, IProfile } from './../../types/index.d';
+import { IAuth, IProfile } from '../types';
 import { toast } from 'react-toastify';
 import { setDoc, doc, getDoc } from 'firebase/firestore/lite';
 import { db } from 'firebase';

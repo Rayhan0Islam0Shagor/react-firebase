@@ -11,6 +11,7 @@ import { auth } from 'firebase';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addUser } from 'redux/slices/authSlice';
 import { fetchProfile } from 'redux/slices/profileSlice';
+import { collectionFetchData } from 'redux/slices/collectionSlice';
 
 function App() {
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -41,7 +42,12 @@ function App() {
   );
 
   useEffect(() => {
-    if (currentUser?.uid) dispatch(fetchProfile(currentUser.uid));
+    if (!currentUser?.uid) return;
+    // profile
+    dispatch(fetchProfile(currentUser.uid));
+    // Home
+    const payload = { uid: currentUser.uid };
+    dispatch(collectionFetchData(payload));
   }, [currentUser, dispatch]);
 
   return (

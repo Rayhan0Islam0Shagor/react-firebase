@@ -21,29 +21,33 @@ const InputFiles: React.FC<IProps> = ({ multiple, files, setFiles }) => {
     checkImages(files);
   };
 
-  const checkImages = (files: FileList) => {
+  const checkImages = (images: FileList) => {
     let newFiles: File[] = [];
 
-    Array.from(files).forEach((file) => {
-      if (!file) return toast.error("File doesn't exist.");
+    Array.from(images).forEach((img) => {
+      if (!img) return toast.error("File doesn't exist.");
 
       const types = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-      if (!types.includes(file.type)) {
+      if (!types.includes(img.type)) {
         return toast.error(
-          `${file.name}'s type is not supported. enter png / jpeg / gif format.`
+          `${img.name}'s type is not supported. enter png / jpeg / gif format.`
         );
       }
 
-      if (file.size > 1024 * 1024) {
+      if (img.size > 1024 * 1024) {
         return toast.error(
-          `${file.name}'s size is too big. enter size less than 1mb.`
+          `${img.name}'s size is too big. enter size less than 1mb.`
         );
       }
 
-      newFiles.push(file);
+      newFiles.push(img);
     });
 
-    setFiles(newFiles);
+    if (multiple) {
+      setFiles([...files, ...newFiles]);
+    } else {
+      setFiles(newFiles);
+    }
   };
 
   const allowDrag = (e: DragEvent) => {
@@ -79,6 +83,7 @@ const InputFiles: React.FC<IProps> = ({ multiple, files, setFiles }) => {
         <ModalImages
           setFiles={setFiles}
           open={modal}
+          files={files}
           setOpen={setModal}
           multiple={multiple}
         />

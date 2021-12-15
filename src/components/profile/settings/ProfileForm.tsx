@@ -66,7 +66,7 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                 <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
                   {/* Full Name */}
                   <div>
-                    <label
+                    {/* <label
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700"
                     >
@@ -81,26 +81,40 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                         value={data.name}
                         onChange={handleInput}
                       />
-                    </div>
+                    </div> */}
+
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Display Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      autoComplete="name"
+                      className="block w-full p-2 mt-1 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
+                      value={data.name}
+                      onChange={handleInput}
+                    />
                   </div>
                   {/* Email Contact */}
                   <div>
                     <label
-                      htmlFor="email"
+                      htmlFor="emailContact"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Email Contact
                     </label>
-                    <div className="flex mt-1 rounded-md shadow-sm">
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="flex-1 block w-full focus:outline-none text-blue-600 border-gray-300 rounded-none focus:ring-indigo-500 rounded-r-md sm:text-sm"
-                        value={data.email}
-                        onChange={handleInput}
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      id="emailContact"
+                      className="block w-full p-2 mt-1 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
+                      value={data.email}
+                      onChange={handleInput}
+                    />
                   </div>
                   {/* Address */}
                   <div>
@@ -110,16 +124,14 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                     >
                       Address
                     </label>
-                    <div className="flex mt-1 rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        name="address"
-                        id="address"
-                        className="flex-1 block w-full focus:outline-none text-blue-600 border-gray-300 rounded-none focus:ring-indigo-500 rounded-r-md sm:text-sm"
-                        value={data.address}
-                        onChange={handleInput}
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="address"
+                      id="address"
+                      className="block w-full p-2 mt-1 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
+                      value={data.address}
+                      onChange={handleInput}
+                    />
                   </div>
                   {/* Phone number */}
                   <div>
@@ -129,16 +141,15 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                     >
                       Phone Number
                     </label>
-                    <div className="flex mt-1 rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        name="phone"
-                        id="phone"
-                        className="flex-1 block w-full focus:outline-none text-blue-600 border-gray-300 rounded-none focus:ring-indigo-500 rounded-r-md sm:text-sm"
-                        value={data.phone}
-                        onChange={handleInput}
-                      />
-                    </div>
+
+                    <input
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      className="block w-full p-2 mt-1 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
+                      value={data.phone}
+                      onChange={handleInput}
+                    />
                   </div>
                   {/* website */}
                   <div>
@@ -148,17 +159,15 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                     >
                       Website
                     </label>
-                    <div className="flex mt-1 rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        name="website"
-                        id="website"
-                        className="flex-1 block w-full focus:outline-none text-blue-600 border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-r-md sm:text-sm"
-                        placeholder="www.example.com"
-                        value={data.website}
-                        onChange={handleInput}
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      name="website"
+                      id="website"
+                      className="block w-full text-blue-600 p-2 mt-1 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
+                      placeholder="www.example.com"
+                      value={data.website}
+                      onChange={handleInput}
+                    />
                   </div>
                   {/* About */}
                   <div>
@@ -173,7 +182,7 @@ const ProfileForm: React.FC<IProps> = ({ setOnSetting }) => {
                         id="about"
                         name="about"
                         rows={5}
-                        className="block w-full mt-1 p-3 focus:outline-none text-blue-600 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full p-2 bg-gray-100 border-gray-300 rounded-sm shadow-sm outline-none sm:text-sm"
                         placeholder="Brief description for your profile."
                         value={data.about}
                         onChange={handleInput}

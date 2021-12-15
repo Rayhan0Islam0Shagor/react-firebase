@@ -1,5 +1,5 @@
-import { getProfile } from './../actions/profileActions';
-import { changeProfile } from 'redux/actions/profileActions';
+import { getProfile } from '../../actions/profileActions';
+import { changeProfile } from 'actions/profileActions';
 import { IAuth, IProfile } from 'types/index.d';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 

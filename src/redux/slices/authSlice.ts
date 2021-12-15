@@ -1,10 +1,10 @@
-import { forgetPasswordApi, signOutApi } from './../actions/authActions';
+import { forgetPasswordApi, signOutApi } from '../../actions/authActions';
 import {
   goggleApi,
   facebookApi,
   loginApi,
   registerApi,
-} from 'redux/actions/authActions';
+} from 'actions/authActions';
 import { IRegister, ILogin, IAuth } from 'types/index.d';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 

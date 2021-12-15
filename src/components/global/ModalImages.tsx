@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { getFiles } from 'redux/actions/uploadActions';
+import { getFiles } from 'actions/uploadActions';
 import { useAppSelector } from 'redux/hooks';
 
 interface IProps {
   multiple?: boolean;
+  files: (File | string)[];
   open: boolean;
   setOpen: (open: boolean) => void;
   setFiles: (img: (File | string)[]) => void;
@@ -15,6 +16,7 @@ const ModalImages: React.FC<IProps> = ({
   open,
   setOpen,
   multiple,
+  files,
   setFiles,
 }) => {
   const [store, setStore] = useState<string[]>([]);
@@ -37,7 +39,7 @@ const ModalImages: React.FC<IProps> = ({
   }, [currentUser]);
 
   const handleSelectImage = (img: string) => {
-    if (multiple) return setSelectedImage([img]);
+    if (!multiple) return setSelectedImage([img]);
 
     if (!selectedImage.includes(img))
       return setSelectedImage([...selectedImage, img]);
@@ -54,8 +56,10 @@ const ModalImages: React.FC<IProps> = ({
   };
 
   const handleSubmit = () => {
-    setFiles(selectedImage);
     setOpen(false);
+    if (!multiple) return setFiles(selectedImage);
+
+    return setFiles([...files, ...selectedImage]);
   };
 
   return (

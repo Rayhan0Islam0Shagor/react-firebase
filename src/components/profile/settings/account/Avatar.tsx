@@ -1,8 +1,8 @@
 import InputFiles from 'components/global/InputFiles';
 import React, { useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
-import { uploadFiles } from 'redux/actions/uploadActions';
-import { changeAvatar } from 'redux/actions/accountActions';
+import { uploadFiles } from 'actions/uploadActions';
+import { changeAvatar } from 'actions/accountActions';
 
 const Avatar = () => {
   const [files, setFiles] = useState<(File | string)[]>([]);

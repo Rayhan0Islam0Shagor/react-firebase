@@ -1,18 +1,13 @@
-import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useAppSelector } from 'redux/hooks';
+import Collections from 'components/home/collections';
+import Header from 'components/home/Header';
+import InputForm from 'components/home/InputForm';
 
 const Home = () => {
-  const { currentUser } = useAppSelector((state) => state.auth);
-  const history = useHistory();
-
-  useEffect(() => {
-    if (!currentUser) return history.push('/login');
-  }, [currentUser, history]);
-
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="w-full mx-auto max-w-7xl">
+      <Header />
+      <InputForm />
+      <Collections />
     </div>
   );
 };

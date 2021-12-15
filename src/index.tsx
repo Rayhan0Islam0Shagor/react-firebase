@@ -7,6 +7,7 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-multi-carousel/lib/styles.css';
 
 ReactDOM.render(
   <React.StrictMode>
