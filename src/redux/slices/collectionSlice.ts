@@ -4,11 +4,11 @@ import { ICollection } from 'types';
 
 export const collectionFetchData = createAsyncThunk(
   'collections/fetchData',
-  async (payload: { uid: string; sort: string }) => {
-    const { uid, sort } = payload;
-    const result = (await getCollections(uid, sort)) as ICollection[];
+  async (payload: { uid: string; sort: string; doc: any }) => {
+    const { uid, sort, doc } = payload;
+    const result = (await getCollections(uid, sort, doc)) as ICollection[];
 
-    return { result };
+    return { result, doc };
   }
 );
 
@@ -16,12 +16,16 @@ export interface CollectionState {
   collections: ICollection[];
   loading: boolean;
   sort: string;
+  doc: any;
+  stop: number;
 }
 
 const initialState: CollectionState = {
   collections: [],
   loading: false,
   sort: 'desc',
+  doc: '',
+  stop: 0,
 };
 
 const collectionSlice = createSlice({
@@ -47,6 +51,12 @@ const collectionSlice = createSlice({
     },
     sortBy: (state, action) => {
       state.sort = action.payload.sort;
+      state.collections = [];
+      state.doc = '';
+      state.stop = 0;
+    },
+    paginate: (state, action) => {
+      state.doc = action.payload.doc;
     },
   },
   extraReducers: (builder) => {
@@ -55,12 +65,19 @@ const collectionSlice = createSlice({
         state.loading = true;
       })
       .addCase(collectionFetchData.fulfilled, (state, action) => {
-        state.collections = action.payload.result;
+        if (action.payload.doc) {
+          state.collections = [...state.collections, ...action.payload.result];
+        } else {
+          state.collections = action.payload.result;
+        }
+
+        state.stop = action.payload.result.length;
         state.loading = false;
       });
   },
 });
 
-export const { create, update, remove, sortBy } = collectionSlice.actions;
+export const { create, update, paginate, remove, sortBy } =
+  collectionSlice.actions;
 
 export default collectionSlice.reducer;
