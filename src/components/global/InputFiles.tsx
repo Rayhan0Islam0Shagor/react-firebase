@@ -2,6 +2,8 @@ import React, { ChangeEvent, DragEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import ModalImages from './ModalImages';
 
+import { MdCancel } from 'react-icons/md';
+
 interface IProps {
   multiple?: boolean;
   files: (File | string)[];
@@ -64,14 +66,23 @@ const InputFiles: React.FC<IProps> = ({ multiple, files, setFiles }) => {
     checkImages(files);
   };
 
+  const removeImage = (index: number) => {
+    const newArr = files.filter((_, i) => index !== i);
+    setFiles(newArr);
+  };
+
   const showImage = (url: string, i: number) => {
     return (
-      <div key={i} className="flex flex-col items-center">
+      <div key={i} className="relative flex flex-col items-center">
         <img
           key={i}
           src={url}
           alt="avatar"
           className="object-cover w-12 h-12 rounded-full mx-1 border p-1"
+        />
+        <MdCancel
+          className="w-5 absolute top-0 -right-1 cursor-pointer"
+          onClick={() => removeImage(i)}
         />
       </div>
     );
@@ -79,15 +90,17 @@ const InputFiles: React.FC<IProps> = ({ multiple, files, setFiles }) => {
 
   return (
     <div className="w-full my-3">
-      {modal && (
-        <ModalImages
-          setFiles={setFiles}
-          open={modal}
-          files={files}
-          setOpen={setModal}
-          multiple={multiple}
-        />
-      )}
+      <div>
+        {modal && (
+          <ModalImages
+            setFiles={setFiles}
+            open={modal}
+            files={files}
+            setOpen={setModal}
+            multiple={multiple}
+          />
+        )}
+      </div>
 
       <div onDrop={drop} onDragOver={allowDrag}>
         <div className="flex justify-center px-6 pt-5 pb-6 mt-1 border-2 border-gray-200 border-dashed rounded-md">

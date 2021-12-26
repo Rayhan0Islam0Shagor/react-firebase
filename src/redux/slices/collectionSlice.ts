@@ -4,9 +4,9 @@ import { ICollection } from 'types';
 
 export const collectionFetchData = createAsyncThunk(
   'collections/fetchData',
-  async (payload: { uid: string }) => {
-    const { uid } = payload;
-    const result = (await getCollections(uid)) as ICollection[];
+  async (payload: { uid: string; sort: string }) => {
+    const { uid, sort } = payload;
+    const result = (await getCollections(uid, sort)) as ICollection[];
 
     return { result };
   }
@@ -15,11 +15,13 @@ export const collectionFetchData = createAsyncThunk(
 export interface CollectionState {
   collections: ICollection[];
   loading: boolean;
+  sort: string;
 }
 
 const initialState: CollectionState = {
   collections: [],
   loading: false,
+  sort: 'desc',
 };
 
 const collectionSlice = createSlice({
@@ -28,6 +30,23 @@ const collectionSlice = createSlice({
   reducers: {
     create: (state, action) => {
       state.collections.unshift(action.payload);
+    },
+    update: (state, action) => {
+      const newData = state.collections.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+
+      state.collections = newData;
+    },
+    remove: (state, action) => {
+      const newData = state.collections.filter(
+        (item) => item.id !== action.payload.id
+      );
+
+      state.collections = newData;
+    },
+    sortBy: (state, action) => {
+      state.sort = action.payload.sort;
     },
   },
   extraReducers: (builder) => {
@@ -42,6 +61,6 @@ const collectionSlice = createSlice({
   },
 });
 
-export const { create } = collectionSlice.actions;
+export const { create, update, remove, sortBy } = collectionSlice.actions;
 
 export default collectionSlice.reducer;

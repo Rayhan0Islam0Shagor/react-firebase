@@ -1,14 +1,20 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { PhotographIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
 import InputFiles from 'components/global/InputFiles';
 import { uploadFiles } from 'actions/uploadActions';
-import { createCollection } from 'actions/collectionActions';
-import { create } from 'redux/slices/collectionSlice';
+import { createCollection, updateCollection } from 'actions/collectionActions';
+import { create, update } from 'redux/slices/collectionSlice';
+import { ICollection } from 'types';
 
-const InputForm = () => {
+interface IProps {
+  dataEdit?: ICollection;
+  setDataEdit: (dataEdit?: ICollection) => void;
+}
+
+const InputForm: FC<IProps> = ({ dataEdit, setDataEdit }) => {
   const [title, setTitle] = useState('');
   const [files, setFiles] = useState<(File | string)[]>([]);
   const [show, setShow] = useState(false);
@@ -38,17 +44,34 @@ const InputForm = () => {
     if (newFiles.length) {
       newUrls = await uploadFiles(`images/${currentUser.uid}`, newFiles);
     }
-
     const photos = [...newUrls, ...urls];
-    const res = await createCollection(currentUser.uid, title, photos);
 
-    dispatch(create(res));
+    if (dataEdit) {
+      // call update function
+      const newData = { ...dataEdit, title, photos };
+
+      dispatch(update(newData));
+
+      await updateCollection(newData);
+    } else {
+      const res = await createCollection(currentUser.uid, title, photos);
+      dispatch(create(res));
+    }
 
     setLoading(false);
     setShow(false);
     setTitle('');
     setFiles([]);
+    setDataEdit(undefined);
   };
+
+  useEffect(() => {
+    if (!dataEdit) return;
+
+    if (dataEdit.title) setTitle(dataEdit.title);
+    if (dataEdit.photos) setFiles(dataEdit.photos);
+    setShow(true);
+  }, [dataEdit]);
 
   return (
     <form className="w-full my-4" onSubmit={handleSubmit}>
@@ -78,7 +101,13 @@ const InputForm = () => {
           disabled={loading}
           className="h-full px-6 py-2 my-2 bg-gray-700 rounded-md text-yellow-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Creating...' : 'Create'}
+          {loading
+            ? dataEdit
+              ? 'updating...'
+              : 'Creating...'
+            : dataEdit
+            ? 'Update'
+            : 'Create'}
         </button>
       </div>
     </form>

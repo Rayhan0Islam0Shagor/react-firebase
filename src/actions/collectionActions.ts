@@ -6,6 +6,10 @@ import {
   where,
   doc,
   getDoc,
+  updateDoc,
+  deleteDoc,
+  orderBy,
+  OrderByDirection,
 } from 'firebase/firestore/lite';
 import { toast } from 'react-toastify';
 import { db } from 'firebase';
@@ -32,15 +36,42 @@ export const createCollection = async (
   }
 };
 
-export const getCollections = async (uid: string) => {
+export const updateCollection = async (data: any) => {
+  try {
+    await updateDoc(doc(db, `collections/${data.id}`), data);
+    return toast.success('Update successfully!');
+  } catch (error: any) {
+    return toast.error(error.message);
+  }
+};
+
+export const removeCollection = async (data: any) => {
+  try {
+    await deleteDoc(doc(db, `collections/${data.id}`));
+    return toast.success('Delete successfully!');
+  } catch (error: any) {
+    return toast.error(error.message);
+  }
+};
+
+export const getCollections = async (uid: string, sort: string) => {
   try {
     const data: ICollection[] = [];
-    const q = query(collection(db, 'collections'), where('uid', '==', uid));
+
+    const q = query(
+      collection(db, 'collections'),
+      where('uid', '==', uid),
+      orderBy('createdAt', sort as OrderByDirection)
+    );
+
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
       data.push({ ...doc.data(), id: doc.id });
     });
+
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     return data;
   } catch (error: any) {
